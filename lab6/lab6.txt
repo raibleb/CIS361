@@ -1,0 +1,81 @@
+Brett Raible
+CIS 361
+Lab6
+3/14/2016
+
+Source Code:
+
+/*
+  Brett Raible & Yonglei Tao
+  Date: 3/14/2015
+  Lab 6
+*/
+
+#include<stdlib.h>
+#include<stdio.h>
+#include<string.h>
+#include<unistd.h>
+#include <sys/types.h>
+#include <sys/wait.h>
+
+#define MAXLINE 80
+#define MAXARG 20
+
+void background(char* cmd);
+
+int main(int argc, char* argv[]) {
+	char cmd[MAXLINE];
+	int pid;	//Process ID
+	for(; ;) {
+		printf("mysh$ ");
+		fgets(cmd, MAXLINE, stdin);	//Get command from the user
+		if(strcmp(cmd, "exit\n")==0 || strcmp(cmd, "q\n")==0) {
+			exit(0); //Exit if desired
+		}
+		pid = fork();
+		if(pid) {
+			//Parent
+			wait(NULL);	//Wait for a child to return
+		} else {
+			//Child
+			background(cmd);//Child uses this function
+		}
+	}
+	return 0;
+}
+
+void background(char* cmd) {
+	int i = 1;	
+	char* argv[MAXARG];
+	argv[0] = strtok(cmd, "\t \n");	//Tokens include \t's and \n's
+	while(1) { //While TRUE
+		argv[i] = strtok(NULL, "\t \n");
+		if(argv[i] == NULL)
+			break;
+		i++;
+	}
+	execvp(argv[0], argv);	//Execute the process
+}
+
+Sample Output:
+
+Script started on Mon 14 Mar 2016 09:31:42 AM EDT
+[?1034h[arch08:~/Documents/CIS361/lab6]$ gcc -Wall lab.c 
+[arch08:~/Documents/CIS361/lab6]$ ./a.out
+mysh$ ls -l
+total 16
+-rwx--x--x 1 raibleb users 8938 Mar 14 09:31 a.out
+-rw------- 1 raibleb users  960 Mar 14 09:31 lab.c
+-rw------- 1 raibleb users    0 Mar 14 09:31 sampleOut.txt
+mysh$ ps
+  PID TTY          TIME CMD
+15559 pts/4    00:00:00 bash
+15565 pts/4    00:00:00 a.out
+15569 pts/4    00:00:00 ps
+mysh$ echo Hello Professro  or Tao
+Hello Professor Tao
+mysh$ do not quit
+mysh$ exit
+[arch08:~/Documents/CIS361/lab6]$ exit
+
+Script done on Mon 14 Mar 2016 09:32:53 AM EDT

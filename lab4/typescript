@@ -1,0 +1,8 @@
+Script started on Mon 08 Feb 2016 09:42:28 AM EST
+[?1034h[arch08:~/Documents/CIS361/lab4]$ gcc -Wall -g lab4.c -o lab4
+[arch08:~/Documents/CIS361/lab4]$ ./lab 4[K[K4
+the first substring: book
+the second substring: book
+[arch08:~/Documents/CIS361/lab4]$ exit
+
+Script done on Mon 08 Feb 2016 09:42:48 AM EST
