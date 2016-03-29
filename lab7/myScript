@@ -1,0 +1,10 @@
+#! /bin/bash
+
+input="/home/raibleb/Documents/CIS361/lab7/classes"
+while read line
+do
+	set $line
+	echo $1
+	mkdir -v $1
+	touch $1/$2
+done < $input

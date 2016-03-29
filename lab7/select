@@ -1,0 +1,9 @@
+#! /bin/bash
+
+while read line
+do
+	if [ -f $line ]
+	then
+		echo $line
+	fi
+done
